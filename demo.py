@@ -13,7 +13,7 @@ class IrrigationSystem:
                 "flow3": 20,
                 "isActive": True,
                 "schedulerName": "LỊCH TƯỚI 1",
-                "startTime": "18:30",
+                  "startTime": "18:30",
                 "stopTime": "18:40"
             }
         ]
