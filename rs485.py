@@ -41,7 +41,7 @@ def serial_read_data(ser):
                 return -1
     return 0
 
-relay1_ON  = [0, 6, 0, 0, 0, 255, 200, 91]
+relay1_ON  = [0, 6, 0, 0 ,0, 255, 200, 91]
 relay1_OFF = [0, 6, 0, 0, 0, 0, 136, 27]
 
 def setDevice1(state):
@@ -77,7 +77,7 @@ def readMoisture():
         print("Serial port not available.")
         return None
 
-while True:
+'''while True:
     if ser is not None:
         print("TEST SENSOR")
         print(readMoisture())
@@ -91,4 +91,4 @@ while True:
             print("Open successfully")
         except Exception as e:
             print(f"Can not open the port: {e}")
-        time.sleep(5)
+        time.sleep(5)'''
