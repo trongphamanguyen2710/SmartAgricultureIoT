@@ -1,101 +1,55 @@
-print("Sensors and Actuators")
-
 import time
 import serial.tools.list_ports
 
-def getPort():
+def get_port():
     ports = serial.tools.list_ports.comports()
-    N = len(ports)
-    commPort = "None"
-    for i in range(0, N):
-        port = ports[i]
-        strPort = str(port)
-        if "USB" in strPort:
-            splitPort = strPort.split(" ")
-            commPort = (splitPort[0])
-    return commPort
-    # return "/dev/ttyUSB1"
+    comm_port = "None"
+    for port in ports:
+        if "USB" in str(port):
+            comm_port = str(port).split(" ")[0]
+    return comm_port
 
-portName = getPort()
-print(portName)
+port_name = get_port()
+print(f"Detected port: {port_name}")
 
 try:
-    ser = serial.Serial(port=portName, baudrate=9600)
-    print("Open successfully")
+    ser = serial.Serial(port=port_name, baudrate=9600)
+    print("Port opened successfully")
 except Exception as e:
     ser = None
-    print(f"Can not open the port: {e}")
+    print(f"Cannot open the port: {e}")
 
 def serial_read_data(ser):
     if ser is not None:
-        bytesToRead = ser.inWaiting()
-        if bytesToRead > 0:
-            out = ser.read(bytesToRead)
+        bytes_to_read = ser.inWaiting()
+        if bytes_to_read > 0:
+            out = ser.read(bytes_to_read)
             data_array = [b for b in out]
-            print(data_array)
+            print(f"Received data: {data_array}")
             if len(data_array) >= 7:
-                array_size = len(data_array)
-                value = data_array[array_size - 4] * 256 + data_array[array_size - 3]
+                value = data_array[-4] * 256 + data_array[-3]
                 return value
-            else:
-                return -1
     return 0
 
-relay1_ON  = [0, 6, 0, 0 ,0, 255, 200, 91]
-relay1_OFF = [0, 6, 0, 0, 0, 0, 136, 27]
+# Kiểm tra cấu trúc lệnh Modbus của bạn có đúng không
+relay1_ON  = [0, 6, 0, 0, 0, 255, 200, 91]  # Điều chỉnh lại nếu cần
+relay1_OFF = [0, 6, 0, 0, 0, 0, 136, 27]    # Điều chỉnh lại nếu cần
 
-def setDevice1(state):
+def set_device1(state):
     if ser is not None:
         if state:
+            print(f"Sending relay1_ON: {relay1_ON}")
             ser.write(relay1_ON)
         else:
+            print(f"Sending relay1_OFF: {relay1_OFF}")
             ser.write(relay1_OFF)
         time.sleep(1)
-        print(serial_read_data(ser))
+        print(f"Read data: {serial_read_data(ser)}")
     else:
         print("Serial port not available.")
-
-soil_temperature =[1, 3, 0, 6, 0, 1, 100, 11]
-def readTemperature():
-    if ser is not None:
-        serial_read_data(ser)
-        ser.write(soil_temperature)
-        time.sleep(1)
-        return serial_read_data(ser)
-    else:
-        print("Serial port not available.")
-        return None
-
-soil_moisture = [1, 3, 0, 7, 0, 1, 53, 203]
-def readMoisture():
-    if ser is not None:
-        serial_read_data(ser)
-        ser.write(soil_moisture)
-        time.sleep(1)
-        return serial_read_data(ser)
-    else:
-        print("Serial port not available.")
-        return None
 
 while True:
-    try:
-        ser = serial.Serial(port=portName, baudrate=9600)
-        print("Open successfully")
-    except Exception as e:
-        print(f"Can not open the port: {e}")
-        time.sleep(5)
-        break
-    setDevice1(True)
-    setDevice1(False)
-    setDevice1(True)
-    setDevice1(False)
-    setDevice1(True)
-    setDevice1(False)
-    setDevice1(True)
-    setDevice1(False)
-    setDevice1(True)
-    setDevice1(False)
-    setDevice1(True)
-    setDevice1(False)
-
-
+    print("Test SENSOR:")
+    set_device1(True)
+    set_device1(False)
+    time.sleep(3)
