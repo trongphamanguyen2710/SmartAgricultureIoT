@@ -31,23 +31,14 @@ def serial_read_data(ser):
                 return value
     return 0
 
-# Kiểm tra cấu trúc lệnh Modbus của bạn có đúng không
-relay1_ON  = [0, 6, 0, 0, 0, 255, 200, 91]  # Điều chỉnh lại nếu cần
-relay1_OFF = [0, 6, 0, 0, 0, 0, 136, 27]    # Điều chỉnh lại nếu cần
+relay1_ON  = [2, 6, 0, 0, 0, 255, 200, 91]
+relay1_OFF = [2, 6, 0, 0, 0, 0, 137, 249]
 
 def set_device1(state):
     if state:
-        print(f"Sending relay1_ON: {relay1_ON}")
         ser.write(relay1_ON)
     else:
-        print(f"Sending relay1_OFF: {relay1_OFF}")
         ser.write(relay1_OFF)
     time.sleep(1)
     print(f"Read data: {serial_read_data(ser)}")
 
-
-while True:
-    print("Test SENSOR:")
-    set_device1(True)
-    set_device1(False)
-    time.sleep(3)
