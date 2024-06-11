@@ -36,17 +36,15 @@ relay1_ON  = [0, 6, 0, 0, 0, 255, 200, 91]  # Điều chỉnh lại nếu cần
 relay1_OFF = [0, 6, 0, 0, 0, 0, 136, 27]    # Điều chỉnh lại nếu cần
 
 def set_device1(state):
-    if ser is not None:
-        if state:
-            print(f"Sending relay1_ON: {relay1_ON}")
-            ser.write(relay1_ON)
-        else:
-            print(f"Sending relay1_OFF: {relay1_OFF}")
-            ser.write(relay1_OFF)
-        time.sleep(1)
-        print(f"Read data: {serial_read_data(ser)}")
+    if state:
+        print(f"Sending relay1_ON: {relay1_ON}")
+        ser.write(relay1_ON)
     else:
-        print("Serial port not available.")
+        print(f"Sending relay1_OFF: {relay1_OFF}")
+        ser.write(relay1_OFF)
+    time.sleep(1)
+    print(f"Read data: {serial_read_data(ser)}")
+
 
 while True:
     print("Test SENSOR:")
