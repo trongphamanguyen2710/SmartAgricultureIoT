@@ -77,18 +77,25 @@ def readMoisture():
         print("Serial port not available.")
         return None
 
-'''while True:
-    if ser is not None:
-        print("TEST SENSOR")
-        print(readMoisture())
-        time.sleep(1)
-        print(readTemperature())
-        time.sleep(1)
-    else:
-        print("Serial port not available. Retrying to open the port...")
-        try:
-            ser = serial.Serial(port=portName, baudrate=9600)
-            print("Open successfully")
-        except Exception as e:
-            print(f"Can not open the port: {e}")
-        time.sleep(5)'''
+while True:
+    try:
+        ser = serial.Serial(port=portName, baudrate=9600)
+        print("Open successfully")
+    except Exception as e:
+        print(f"Can not open the port: {e}")
+        time.sleep(5)
+        break
+    setDevice1(True)
+    setDevice1(False)
+    setDevice1(True)
+    setDevice1(False)
+    setDevice1(True)
+    setDevice1(False)
+    setDevice1(True)
+    setDevice1(False)
+    setDevice1(True)
+    setDevice1(False)
+    setDevice1(True)
+    setDevice1(False)
+
+
