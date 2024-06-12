@@ -20,7 +20,7 @@ def load_schedule(file_path):
 
 # Get the current time
 def get_current_time():
-    print(datetime.now().strftime('%H:%M:%S'))
+    print("Time: ",datetime.now().strftime('%H:%M:%S'))
     return datetime.now().strftime('%H:%M:%S')
 
 
